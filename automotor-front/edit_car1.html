@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Car | Automotor Admin Panel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: skyblue; /* Set skyblue background color */
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .navbar {
+      background-color: blue; /* Set blue navigation bar */
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+
+    .game-board {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .game-item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .game-item p {
+      margin: 5px 0;
+    }
+
+    .edit-car-form {
+      max-width: 400px;
+      margin: 20px auto;
+    }
+
+    .edit-car-form label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .edit-car-form input[type="text"],
+    .edit-car-form input[type="number"],
+    .edit-car-form textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+
+    .edit-car-form textarea {
+      height: 100px;
+    }
+
+    .edit-car-form button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .edit-car-form button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar"></div> <!-- Add blue navigation bar -->
+  <h1>Edit Car | Automotor Admin Panel</h1>
+  <div class="game-board" id="carGameBoard"></div>
+  <div class="edit-car-form">
+    <h2>Edit Car Details</h2>
+    <form id="carForm">
+      <label for="carBrand">Car Brand:</label>
+      <input type="text" id="carBrand" name="carBrand" required>
+
+      <label for="carModel">Car Model:</label>
+      <input type="text" id="carModel" name="carModel" required>
+
+      <label for="productionDate">Production Date:</label>
+      <input type="number" id="productionDate" name="productionDate" required>
+
+      <label for="carType">Car Type:</label>
+      <input type="text" id="carType" name="carType" required>
+
+      <label for="carDescription">Car Description:</label>
+      <textarea id="carDescription" name="carDescription" required></textarea>
+
+      <button type="submit">Update Car</button>
+    </form>
+  </div>
+
+  <script src="edit_car.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Automotor Admin Panel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: skyblue; /* Set skyblue background color */
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .navbar {
+      background-color: blue; /* Set blue navigation bar */
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .grid-item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .add-car-button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .add-car-button:hover {
+      background-color: #45a049;
+    }
+
+    .delete-car-button {
+      background-color: #FF0000;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .edit-car-button {
+      background-color: #3366FF;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar"></div> <!-- Add blue navigation bar -->
+  <h1>Automotor Admin Panel</h1>
+  <div class="grid-container" id="carGrid"></div>
+  <button class="add-car-button" onclick="location.href='add_car.html'">Add Car</button>
+
+  <script>
+    function fetchCars() {
+      fetch("http://localhost:8080/cars")
+        .then(response => response.json())
+        .then(data => {
+          const carGrid = document.getElementById("carGrid");
+          carGrid.innerHTML = "";
+          data.forEach(car => {
+            const gridItem = document.createElement("div");
+            gridItem.className = "grid-item";
+
+            const carBrandModel = document.createElement("p");
+            carBrandModel.textContent = car.carBrand + " " + car.carModel;
+
+            const productionDate = document.createElement("p");
+            productionDate.textContent = "Production Date: " + car.productionDate;
+
+            const carType = document.createElement("p");
+            carType.textContent = "Type: " + car.carType;
+
+            const carDescription = document.createElement("p");
+            carDescription.textContent = car.carDescription;
+
+            const deleteButton = document.createElement("button");
+            deleteButton.className = "delete-car-button";
+            deleteButton.textContent = "Delete";
+            deleteButton.addEventListener("click", function () {
+              deleteCar(car.id);
+            });
+
+            const editButton = document.createElement("button");
+            editButton.className = "edit-car-button";
+            editButton.textContent = "Edit";
+            editButton.addEventListener("click", function () {
+              editCar(car.id);
+            });
+
+            gridItem.appendChild(carBrandModel);
+            gridItem.appendChild(productionDate);
+            gridItem.appendChild(carType);
+            gridItem.appendChild(carDescription);
+            gridItem.appendChild(deleteButton);
+            gridItem.appendChild(editButton);
+
+            carGrid.appendChild(gridItem);
+          });
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          alert("Failed to fetch cars.");
+        });
+    }
+
+    function deleteCar(carId) {
+      fetch(`http://localhost:8080/cars/${carId}`, {
+        method: "DELETE"
+      })
+        .then(response => {
+          if (response.ok) {
+            alert("Car deleted successfully!");
+            fetchCars(); // Refresh the car grid after deleting
+          } else {
+            alert("Failed to delete the car.");
+          }
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          alert("Failed to delete the car.");
+        });
+    }
+
+    function editCar(carId) {
+      window.location.href = "edit_car.html?id=" + carId;
+    }
+
+    fetchCars();
+  </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Car | Automotor Admin Panel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: skyblue; /* Set skyblue background color */
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .form-container {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+
+    textarea {
+      height: 100px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .navbar {
+      background-color: blue; /* Set blue background color */
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar"></div> <!-- Add blue navigation bar -->
+  <h1>Add Car | Automotor Admin Panel</h1>
+  <div class="form-container">
+    <form id="carForm">
+      <label for="carBrand">Car Brand:</label>
+      <input type="text" id="carBrand" name="carBrand" required>
+
+      <label for="carModel">Car Model:</label>
+      <input type="text" id="carModel" name="carModel" required>
+
+      <label for="productionDate">Production Date:</label>
+      <input type="number" id="productionDate" name="productionDate" required>
+
+      <label for="carType">Car Type:</label>
+      <input type="text" id="carType" name="carType" required>
+
+      <label for="carDescription">Car Description:</label>
+      <textarea id="carDescription" name="carDescription" required></textarea>
+
+      <button type="submit">Add Car</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("carForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      addCar();
+    });
+
+    function addCar() {
+      var carData = {
+        carBrand: document.getElementById("carBrand").value,
+        carModel: document.getElementById("carModel").value,
+        productionDate: parseInt(document.getElementById("productionDate").value),
+        carType: document.getElementById("carType").value,
+        carDescription: document.getElementById("carDescription").value
+      };
+
+      fetch("http://localhost:8080/cars", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(carData)
+      })
+        .then(response => response.json())
+        .then(data => {
+          alert("Car added successfully!");
+          document.getElementById("carForm").reset();
+          window.location.href = "admin.html"; // Redirect to admin.html
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          alert("Failed to add the car.");
+        });
+    }
+  </script>
+</body>
+</html>

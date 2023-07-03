@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Automotor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: skyblue; /* Set skyblue background color */
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .navbar {
+      background-color: blue; /* Set blue navigation bar */
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .grid-item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .grid-item img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar"></div> <!-- Add blue navigation bar -->
+  <h1>Automotor</h1>
+  <div class="grid-container" id="carGrid"></div>
+
+  <script>
+    function fetchCars() {
+      fetch("http://localhost:8080/cars")
+        .then(response => response.json())
+        .then(data => {
+          const carGrid = document.getElementById("carGrid");
+          carGrid.innerHTML = "";
+          data.forEach(car => {
+            const gridItem = document.createElement("div");
+            gridItem.className = "grid-item";
+
+            const carBrandModel = document.createElement("p");
+            carBrandModel.textContent = car.carBrand + " " + car.carModel;
+
+            const productionDate = document.createElement("p");
+            productionDate.textContent = "Production Date: " + car.productionDate;
+
+            const carType = document.createElement("p");
+            carType.textContent = "Type: " + car.carType;
+
+            const carDescription = document.createElement("p");
+            carDescription.textContent = car.carDescription;
+
+            const carImage = document.createElement("img");
+            carImage.src = localStorage.getItem("carImage"); // Fetch the image from local storage
+
+            gridItem.appendChild(carBrandModel);
+            gridItem.appendChild(productionDate);
+            gridItem.appendChild(carType);
+            gridItem.appendChild(carDescription);
+            gridItem.appendChild(carImage); // Append the image to the grid item
+
+            carGrid.appendChild(gridItem);
+          });
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          alert("Failed to fetch cars.");
+        });
+    }
+
+    fetchCars();
+  </script>
+</body>
+</html>
